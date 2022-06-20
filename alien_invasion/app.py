@@ -35,20 +35,27 @@ class AlienInvasion:
         # Создание пришельца и вычисление количества пришельцев в ряду.
         # Интервал между соседними пришельцами равен ширине пришельца.
         new_alien = alien.Alien(self)
-        new_alien_width = new_alien.rect.width
+        new_alien_width, new_alien_height = new_alien.rect.size
         available_space_x = self.settings.screen_width - (2 * new_alien_width)
         number_aliens_x = available_space_x // (2 * new_alien_width)
 
-        # Создание первого ряда пришельцев.
-        for alien_number in range(number_aliens_x):
-            self._create_alien(alien_number)
+        """Определяет количество рядов, помещающихся на экране."""
+        ship_height = self.ship.rect.height
+        available_space_y = (self.settings.screen_height - (3 * new_alien_height) - ship_height)
+        number_rows = available_space_y // (2 * new_alien_height)
 
-    def _create_alien(self, alien_number):
+        # Создание флота вторжения.
+        for row_number in range(number_rows):
+            for alien_number in range(number_aliens_x):
+                self._create_alien(alien_number, row_number)
+
+    def _create_alien(self, alien_number, row_number):
         """Создание пришельца и размещение его в ряду."""
         new_alien = alien.Alien(self)
-        new_alien_width = new_alien.rect.width
+        new_alien_width, new_alien_height = new_alien.rect.size
         new_alien.x = new_alien_width + 2 * new_alien_width * alien_number
         new_alien.rect.x = new_alien.x
+        new_alien.rect.y = new_alien.rect.height + 2 * new_alien.rect.height * row_number
         self.aliens.add(new_alien)
 
     def _fire_bullet(self):

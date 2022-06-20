@@ -3,7 +3,9 @@ import pygame
 import sys
 
 from settings import Settings
+
 import ship
+import bullet
 
 
 class AlienInvasion:
@@ -22,6 +24,12 @@ class AlienInvasion:
         pygame.display.set_caption('Alien Invasion | v.1')
 
         self.ship = ship.Ship(self)
+        self.bullets = pygame.sprite.Group()
+
+    def _fire_bullet(self):
+        """Создание нового снаряда и включение его в группу bullets."""
+        new_bullet = bullet.Bullet(self)
+        self.bullets.add(new_bullet)
 
     def _check_keydown_events(self, event):
         """Реагирует на нажатие клавиш."""
@@ -35,6 +43,8 @@ class AlienInvasion:
             self.ship.moving_down = True
         elif event.key == pygame.K_ESCAPE:
             sys.exit()
+        elif event.key == pygame.K_SPACE:
+            self._fire_bullet()
 
     def _check_keyup_events(self, event):
         """Реагирует на отпускание клавиш."""
@@ -66,15 +76,17 @@ class AlienInvasion:
         )
         self.ship.blitme()
 
+        for bullet_now in self.bullets.sprites():
+            bullet_now.draw_bullet()
+
         pygame.display.flip()  # Отображение последнего прорисованного экрана.
 
     def run_game(self):
         """Запуск основного цикла игры."""
         while True:
             self._check_events()
-
             self.ship.update()
-
+            self.bullets.update()
             self._update_screen()
 
 

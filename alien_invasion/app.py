@@ -32,9 +32,20 @@ class AlienInvasion:
 
     def _create_fleet(self):
         """Создание флота вторжения."""
-        # Создание пришельца.
+        # Создание пришельца и вычисление количества пришельцев в ряду.
+        # Интервал между соседними пришельцами равен ширине пришельца.
         new_alien = alien.Alien(self)
-        self.aliens.add(new_alien)
+        new_alien_width = new_alien.rect.width
+        available_space_x = self.settings.screen_width - (2 * new_alien_width)
+        number_aliens_x = available_space_x // (2 * new_alien_width)
+
+        # Создание первого ряда пришельцев.
+        for alien_number in range(number_aliens_x):
+            # Создание пришельца и размещение его в ряду.
+            new_alien = alien.Alien(self)
+            new_alien.x = new_alien_width + 2 * new_alien_width * alien_number
+            new_alien.rect.x = new_alien.x
+            self.aliens.add(new_alien)
 
     def _fire_bullet(self):
         """Создание нового снаряда и включение его в группу bullets."""

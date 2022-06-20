@@ -17,7 +17,7 @@ class AlienInvasion:
         self.screen = pygame.display.set_mode(
             (self.settings.screen_width, self.settings.screen_height)
         )
-        pygame.display.set_caption('Alien Invasion | version 0.1')
+        pygame.display.set_caption('Alien Invasion | v.1')
 
         self.ship = ship.Ship(self)
 
@@ -31,6 +31,8 @@ class AlienInvasion:
             self.ship.moving_up = True
         elif event.key == pygame.K_DOWN or event.key == pygame.K_s:
             self.ship.moving_down = True
+        elif event.key == pygame.K_ESCAPE:
+            sys.exit()
 
     def _check_keyup_events(self, event):
         """Реагирует на отпускание клавиш."""

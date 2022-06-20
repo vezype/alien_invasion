@@ -82,18 +82,22 @@ class AlienInvasion:
 
         pygame.display.flip()  # Отображение последнего прорисованного экрана.
 
+    def _update_bullets(self):
+        """Обновляет позиции снарядов и уничтожает старые."""
+        # Обновление позиции снарядов.
+        self.bullets.update()
+
+        # Удаление снарядов, вышедших за край экрана.
+        for bullet_now in self.bullets.copy():
+            if bullet_now.rect.bottom <= 0:
+                self.bullets.remove(bullet_now)
+
     def run_game(self):
         """Запуск основного цикла игры."""
         while True:
             self._check_events()
             self.ship.update()
-            self.bullets.update()
-
-            # Удаление снарядов, вышедших за край экрана.
-            for bullet_now in self.bullets.copy():
-                if bullet_now.rect.bottom <= 0:
-                    self.bullets.remove(bullet_now)
-
+            self._update_bullets()
             self._update_screen()
 
 

@@ -28,8 +28,9 @@ class AlienInvasion:
 
     def _fire_bullet(self):
         """Создание нового снаряда и включение его в группу bullets."""
-        new_bullet = bullet.Bullet(self)
-        self.bullets.add(new_bullet)
+        if len(self.bullets) < self.settings.bullets_allowed:
+            new_bullet = bullet.Bullet(self)
+            self.bullets.add(new_bullet)
 
     def _check_keydown_events(self, event):
         """Реагирует на нажатие клавиш."""

@@ -14,6 +14,7 @@ class Sounds:
 
         self.shot_sound = pygame.mixer.Sound('sounds/shot.wav')
         self.boom_sound = pygame.mixer.Sound('sounds/boom.wav')
+        self.huston_sound = pygame.mixer.Sound('sounds/hyuston-u-nas-problema.wav')
 
     def start_background_game(self):
         """Загружает и запускает фоновую песню в момент игры."""
@@ -36,3 +37,8 @@ class Sounds:
         """Звука взрыва космического корабля."""
         self.boom_sound.set_volume(self.settings.boom_volume)
         self.boom_sound.play()
+
+    def huston(self):
+        """Звук, когда пришельцы доходят до края экрана или жизней больше нет!"""
+        self.huston_sound.set_volume(self.settings.huston_volume)
+        self.huston_sound.play()

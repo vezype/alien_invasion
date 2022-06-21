@@ -19,6 +19,7 @@ class Settings:
         self.shot_volume = 0.1
         self.music_volume = 0.08
         self.boom_volume = 0.1
+        self.huston_volume = 0.5
 
         # Пришельцы.
         self.fleet_drop_speed = 10

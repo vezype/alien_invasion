@@ -49,9 +49,6 @@ class AlienInvasion:
 
     def _ship_hit(self):
         """Обрабатывает столкновение корабля с пришельцем."""
-        # Воспроизведение звука взрыва двух кораблей.
-        self.sounds.boom()
-
         if self.stats.ships_left > 0:
             # Уменьшение ships_left.
             self.stats.ships_left -= 1
@@ -247,6 +244,8 @@ class AlienInvasion:
 
         # Проверка коллизий "пришелец - корабль".
         if pygame.sprite.spritecollideany(self.ship, self.aliens):
+            # Воспроизведение звука взрыва двух кораблей.
+            self.sounds.boom()
             self._ship_hit()
 
         # Проверить, добрались ли пришельцы до нижнего края экрана.
@@ -271,6 +270,7 @@ class AlienInvasion:
         for current_alien in self.aliens.sprites():
             if current_alien.rect.bottom >= screen_rect.bottom:
                 # Происходит то же самое, что и при столкновении с кораблём.
+                self.sounds.huston()
                 self._ship_hit()
                 break
 

@@ -7,6 +7,7 @@ from settings import Settings
 from game_stats import GameStats
 from button import Button
 import scoreboard
+import sounds
 
 import ship
 import bullet
@@ -31,6 +32,10 @@ class AlienInvasion:
         # Создание экземпляра для хранения игровой статистики.
         self.stats = GameStats(self)
         self.sb = scoreboard.Scoreboard(self)
+
+        # Создание экземпляра для управления музыкой в игре.
+        self.sounds = sounds.Sounds()
+        self.sounds.start_background_pause()
 
         self.ship = ship.Ship(self)
         self.bullets = pygame.sprite.Group()
@@ -61,6 +66,9 @@ class AlienInvasion:
         else:
             self.stats.game_active = False
             pygame.mouse.set_visible(True)
+
+            # Запускаем фоновую музыку с неактивной атмосферой.
+            self.sounds.start_background_pause()
 
     def _create_fleet(self):
         """Создание флота вторжения."""
@@ -149,6 +157,9 @@ class AlienInvasion:
 
             # Скрываем курсор мыши.
             pygame.mouse.set_visible(False)
+
+            # Запускаем игровую фоновую музыку.
+            self.sounds.start_background_game()
 
             # Сброс игровой статистики.
             self.stats.reset_stats()

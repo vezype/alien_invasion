@@ -7,6 +7,7 @@ class Settings:
 
         # Корабль.
         self.ship_speed = 2.5
+        self.ship_limit = 3
 
         # Стрельба.
         self.bullet_speed = 3.5
@@ -17,5 +18,5 @@ class Settings:
 
         # Пришельцы.
         self.alien_speed = 1
-        self.fleet_drop_speed = 1
+        self.fleet_drop_speed = 10
         self.fleet_direction = 1  # 1 - движение направо, а -1 движение налево.

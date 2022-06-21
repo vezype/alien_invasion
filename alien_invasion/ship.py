@@ -7,7 +7,7 @@ class Ship:
     """Класс для управления кораблем."""
 
     def __init__(self, ai_game: AlienInvasion):
-        """Инциализирует корабль и задаёт его начальную позицию."""
+        """Инициализирует корабль и задаёт его начальную позицию."""
         self.screen = ai_game.screen
         self.screen_rect = ai_game.screen.get_rect()
         self.settings = ai_game.settings
@@ -44,3 +44,10 @@ class Ship:
 
         # Обновление атрибута rect на основании self.x и self.y.
         self.rect.x, self.rect.y = self.x, self.y
+
+    def center_ship(self):
+        """Размещает корабль в центре нижней стороны."""
+        self.rect.midbottom = self.screen_rect.midbottom
+
+        self.x = float(self.rect.x)
+        self.y = float(self.rect.y)

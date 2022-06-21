@@ -19,6 +19,7 @@ class AlienInvasion:
 
     def __init__(self):
         """Инициализирует игру и создаёт игровые ресурсы."""
+        pygame.mixer.pre_init(44100, -16, 1, 512)  # Настройка инициализации звуков в игре.
         pygame.init()
         self.settings = Settings()
 
@@ -34,7 +35,7 @@ class AlienInvasion:
         self.sb = scoreboard.Scoreboard(self)
 
         # Создание экземпляра для управления музыкой в игре.
-        self.sounds = sounds.Sounds()
+        self.sounds = sounds.Sounds(self)
         self.sounds.start_background_pause()
 
         self.ship = ship.Ship(self)
@@ -48,6 +49,9 @@ class AlienInvasion:
 
     def _ship_hit(self):
         """Обрабатывает столкновение корабля с пришельцем."""
+        # Воспроизведение звука взрыва двух кораблей.
+        self.sounds.boom()
+
         if self.stats.ships_left > 0:
             # Уменьшение ships_left.
             self.stats.ships_left -= 1
@@ -106,6 +110,9 @@ class AlienInvasion:
         if len(self.bullets) < self.settings.bullets_allowed:
             new_bullet = bullet.Bullet(self)
             self.bullets.add(new_bullet)
+
+            # Воиспрозведение звука выстрела.
+            self.sounds.shot()
 
     def _check_keydown_events(self, event):
         """Реагирует на нажатие клавиш."""

@@ -15,6 +15,11 @@ class Settings:
         self.bullet_color = (60, 60, 60)
         self.bullets_allowed = 3
 
+        # Звуки.
+        self.shot_volume = 0.1
+        self.music_volume = 0.08
+        self.boom_volume = 0.1
+
         # Пришельцы.
         self.fleet_drop_speed = 10
 
@@ -44,4 +49,3 @@ class Settings:
         self.alien_speed *= self.speedup_scale
 
         self.alien_points = int(self.alien_points * self.score_scale)
-

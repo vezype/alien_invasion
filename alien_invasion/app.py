@@ -6,6 +6,7 @@ from time import sleep
 from settings import Settings
 from game_stats import GameStats
 from button import Button
+from scoreboard import Scoreboard
 
 import ship
 import bullet
@@ -29,6 +30,7 @@ class AlienInvasion:
 
         # Создание экземпляра для хранения игровой статистики.
         self.stats = GameStats(self)
+        self.sb = Scoreboard(self)
 
         self.ship = ship.Ship(self)
         self.bullets = pygame.sprite.Group()
@@ -57,6 +59,7 @@ class AlienInvasion:
             sleep(0.5)
         else:
             self.stats.game_active = False
+            pygame.mouse.set_visible(True)
 
     def _create_fleet(self):
         """Создание флота вторжения."""
@@ -130,6 +133,31 @@ class AlienInvasion:
             elif event.type == pygame.KEYUP:
                 self._check_keyup_events(event)
 
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                mouse_pos = pygame.mouse.get_pos()
+                self._check_play_button(mouse_pos)
+
+    def _check_play_button(self, mouse_pos):
+        """Запускает новую игру при нажатии на клавишу Play."""
+        if self.play_button.rect.collidepoint(mouse_pos) and not self.stats.game_active:
+            # Сброс игровых настроек.
+            self.settings.initalize_dynamic_settings()
+
+            # Скрываем курсор мыши.
+            pygame.mouse.set_visible(False)
+
+            # Сброс игровой статистики.
+            self.stats.reset_stats()
+            self.stats.game_active = True
+
+            # Очистка список пришельцев и снарядов.
+            self.aliens.empty()
+            self.bullets.empty()
+
+            # Создание нового флота и размещение корабля в центре.
+            self._create_fleet()
+            self.ship.center_ship()
+
     def _update_screen(self):
         """Обновляет изображения на экране и отображает новый экран."""
         self.screen.fill(
@@ -140,6 +168,9 @@ class AlienInvasion:
         for bullet_now in self.bullets.sprites():
             bullet_now.draw_bullet()
         self.aliens.draw(self.screen)
+
+        # Вывод информации о счёте.
+        self.sb.show_score()
 
         # Кнопка Играть отображает в том случае, если игра неактивна.
         if not self.stats.game_active:
@@ -169,6 +200,7 @@ class AlienInvasion:
             # Уничтожение существующих снарядом и создание нового флота.
             self.bullets.empty()
             self._create_fleet()
+            self.settings.increase_speed()
 
     def _update_aliens(self):
         """

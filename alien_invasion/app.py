@@ -26,7 +26,7 @@ class AlienInvasion:
         )
         self.settings.screen_width = self.screen.get_width()
         self.settings.screen_height = self.screen.get_height()
-        pygame.display.set_caption('Инопланетное вторжение. Часть 1.')
+        pygame.display.set_caption('Alien Invasion v.1')
 
         # Создание экземпляра для хранения игровой статистики.
         self.stats = GameStats(self)
@@ -74,6 +74,9 @@ class AlienInvasion:
         ship_height = self.ship.rect.height
         available_space_y = (self.settings.screen_height - (3 * new_alien_height) - ship_height)
         number_rows = available_space_y // (2 * new_alien_height)
+
+        # Возврат корабля на своё место, чтобы он не взорвался при появлении нового флота.
+        self.ship.center_ship()
 
         # Создание флота вторжения.
         for row_number in range(number_rows):
@@ -207,6 +210,7 @@ class AlienInvasion:
             for aliens in collisions.values():
                 self.stats.score += self.settings.alien_points * len(aliens)
             self.sb.prep_score()
+            self.sb.check_high_score()
 
     def _update_aliens(self):
         """

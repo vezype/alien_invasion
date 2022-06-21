@@ -6,7 +6,7 @@ from time import sleep
 from settings import Settings
 from game_stats import GameStats
 from button import Button
-from scoreboard import Scoreboard
+import scoreboard
 
 import ship
 import bullet
@@ -30,7 +30,7 @@ class AlienInvasion:
 
         # Создание экземпляра для хранения игровой статистики.
         self.stats = GameStats(self)
-        self.sb = Scoreboard(self)
+        self.sb = scoreboard.Scoreboard(self)
 
         self.ship = ship.Ship(self)
         self.bullets = pygame.sprite.Group()
@@ -46,6 +46,7 @@ class AlienInvasion:
         if self.stats.ships_left > 0:
             # Уменьшение ships_left.
             self.stats.ships_left -= 1
+            self.sb.prep_ships()
 
             # Очистка списков пришельцев и снарядов.
             self.aliens.empty()
@@ -154,6 +155,7 @@ class AlienInvasion:
             self.stats.game_active = True
             self.sb.prep_score()
             self.sb.prep_level()
+            self.sb.prep_ships()
 
             # Очистка список пришельцев и снарядов.
             self.aliens.empty()

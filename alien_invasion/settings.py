@@ -7,7 +7,7 @@ class Settings:
         self.bg_color = (230, 230, 230)
 
         # Корабль.
-        self.ship_limit = 2
+        self.ship_limit = 3
 
         # Стрельба.
         self.bullet_width = 3
